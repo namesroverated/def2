@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iamNEO - Sri Ramakrishna Engineering College Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#1d4ed8',
+              600: '#1e40af',
+              700: '#1d3557',
+              900: '#0b192c'
+            },
+            neoTeal: '#0fa958',
+            neoDark: '#082531'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbar for clean code editor look */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    /* Code syntax styling simulation */
+    .java-keyword { color: #7c3aed; font-weight: 600; }
+    .java-static { color: #2563eb; font-weight: 600; }
+    .java-argument { color: #c2410c; }
+    .java-method { color: #c2410c; font-weight: 600; }
+    .java-type { color: #0284c7; font-weight: 500; }
+    .java-string { color: #059669; }
+    .java-comment { color: #64748b; font-style: italic; }
+    .java-number { color: #b45309; }
+    .footer-snippet {
+      color: #991b1b;
+    }
+    .footer-snippet .java-string {
+      color: inherit;
+    }
+    .snippet-line-number {
+      display: inline-block;
+      width: 1.75rem;
+      color: #475569;
+      text-align: right;
+      user-select: none;
+      margin-right: 0.5rem;
+      padding-right: 0.35rem;
+    }
+    #headerSnippet,
+    #footerSnippet {
+      background-image: linear-gradient(to right, #e2e8f0 0, #e2e8f0 2.5rem, transparent 2.5rem);
+      background-repeat: no-repeat;
+    }
+    #headerSnippet {
+      color: #991b1b !important;
+    }
+    .coding-question-pane h3,
+    .coding-question-pane h4 {
+      color: #475569 !important;
+    }
+    .coding-question-pane .coding-info-box {
+      border-color: transparent !important;
+    }
+    #view-coding-test .fa-moon {
+      font-weight: 700;
+      text-shadow: 0 0 0.55px currentColor;
+    }
+    #codingLanguageSelect {
+      background: #e0effe !important;
+      border-color: #bfdbfe !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .coding-question-scroll-shell {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .coding-question-scroll-shell .coding-question-pane {
+      height: 100%;
+      padding-right: 1.25rem;
+    }
+    .coding-question-scroll-controls {
+      display: none;
+    }
+    .coding-question-scroll-controls button {
+      width: 1.15rem;
+      height: 1.15rem;
+      color: #64748b;
+      border-radius: 0.25rem;
+      line-height: 1;
+    }
+    .coding-question-scroll-controls button:hover {
+      color: #334155;
+      background: #cbd5e1;
+    }
+    .coding-marks-badge {
+      background: #e0f2fe;
+      border: 1px solid #bfdbfe;
+      border-radius: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+    .coding-marks-divider {
+      width: 1px;
+      height: 0.9rem;
+      background: #bae6fd;
+    }
+    .coding-test-view {
+      height: 100vh;
+      overflow: hidden;
+    }
+    .coding-test-main {
+      min-height: 0;
+      gap: 0.5rem !important;
+    }
+    .coding-question-selector {
+      width: 9rem;
+      background: #e0effe !important;
+      border-color: #bfdbfe !important;
+      color: #1e3a8a !important;
+      box-shadow: inset 0 1px 2px rgba(59, 130, 246, 0.08);
+    }
+    .coding-question-pane {
+      min-height: 0;
+    }
+    .coding-editor-pane,
+    .coding-editor-content {
+      min-height: 0;
+    }
+    .coding-test-view::-webkit-scrollbar,
+    .coding-test-view *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .coding-test-view::-webkit-scrollbar-track,
+    .coding-test-view *::-webkit-scrollbar-track {
+      background: #cbd5e1;
+    }
+    .coding-test-view::-webkit-scrollbar-thumb,
+    .coding-test-view *::-webkit-scrollbar-thumb {
+      background: #64748b;
+      border-radius: 4px;
+    }
+    .coding-test-view::-webkit-scrollbar-thumb:hover,
+    .coding-test-view *::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Custom Pulsing Animations */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(0.98); }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 2.5s infinite ease-in-out;
+    }
+
+    /* Code Highlight Editor Layering */
+    .editor-container {
+      position: relative;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+    .editor-line-numbers {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 32px;
+      padding: 12px 8px 12px 0;
+      background: #e2e8f0;
+      color: #475569;
+      text-align: right;
+      user-select: none;
+      overflow: hidden;
+      z-index: 3;
+    }
+    .editor-active-line {
+      position: absolute;
+      top: 12px;
+      left: 44px;
+      right: 12px;
+      height: 20.8px;
+      background: rgba(128, 128, 128, 0.1);
+      pointer-events: none;
+      z-index: 0;
+      transition: none;
+    }
+    .editor-line-numbers span {
+      display: block;
+      height: 1.6em;
+      line-height: 1.6em;
+    }
+    .editor-textarea {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: transparent !important;
+      color: transparent !important;
+      caret-color: #0f172a;
+      box-sizing: border-box;
+      padding: 12px 8px 12px 44px !important;
+      font-family: 'Fira Code', monospace !important;
+      font-size: 13px !important;
+      line-height: 20.8px !important;
+      resize: none;
+      white-space: pre;
+      overflow-wrap: normal;
+      overflow-x: auto;
+      min-height: 0 !important;
+    }
+
+    .editor-highlight {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      white-space: pre;
+      overflow: hidden;
+      color: #1e293b;
+      box-sizing: border-box;
+      padding: 12px 8px 12px 44px !important;
+      font-family: 'Fira Code', monospace !important;
+      font-size: 13px !important;
+      line-height: 20.8px !important;
+      overflow: hidden;
+    }
+
+    .editor-container {
+      padding: 0 !important;
+    }
+
+    .snippet-content {
+      user-select: text;
+      cursor: default;
+    }
+
+    .test-user-identity {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .test-user-name {
+      min-width: 1.5rem;
+      max-width: min(14rem, 42vw);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 0 1 auto;
+    }
+
+    .test-user-roll {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    #headerSnippet,
+    #footerSnippet {
+      max-height: 64px;
+      overflow-y: auto;
+    }
+
+    .coding-watermark-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+    .coding-watermark-panel {
+      background-color: #fff !important;
+    }
+    .coding-info-box {
+      background: rgba(219, 234, 254, 0.48);
+      border-color: rgba(147, 197, 253, 0.75);
+    }
+    .coding-sample-box {
+      background: rgba(219, 234, 254, 0.42);
+      border-color: transparent;
+    }
+
+    .portal-nav-item {
+      transition: background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+    }
+    .portal-nav-item.is-active {
+      background: #2d45c5;
+      color: #fff;
+      border-radius: 0 0.75rem 0.75rem 0;
+    }
+
+    .login-panel-content {
+      width: min(100%, 316px);
+    }
+
+    .lab-card {
+      min-height: 255px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+      cursor: pointer;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+    .lab-card:hover {
+      border-color: #b7c7ff;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1);
+      transform: translateY(-2px);
+    }
+    .lab-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .lab-title {
+      min-height: 38px;
+      margin-top: 14px;
+      color: #0f172a;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+    .lab-progress {
+      height: 4px;
+      margin-top: 12px;
+      background: #d7d7d7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .lab-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: #16a34a;
+    }
+    .lab-status {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: #64748b;
+      font-size: 11px;
+    }
+    .lab-status b {
+      font-weight: 500;
+    }
+    .lab-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 8px;
+      margin-top: auto;
+      padding-top: 14px;
+      color: #64748b;
+      font-size: 10px;
+    }
+    .lab-meta span {
+      white-space: nowrap;
+    }
+    .lab-meta i {
+      width: 14px;
+      margin-right: 4px;
+      color: #4169ff;
+      text-align: center;
+    }
+    .lab-control {
+      min-width: 126px;
+      height: 32px;
+      padding: 0 12px;
+      color: #64748b;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 11px;
+      text-align: left;
+    }
+    .lab-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 0 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      background: #fff;
+      color: #0f172a;
+      font-size: 12px;
+    }
+    .lab-summary i {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #4169ff;
+      background: #eef2ff;
+    }
+    .lab-summary span {
+      flex: 1;
+    }
+    .lab-summary b {
+      color: #1d4ed8;
+    }
+    .dashboard-card {
+      background: #fff;
+      border: 1px solid #edf0f4;
+      border-radius: 9px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .dashboard-card-title {
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .dashboard-stat-label {
+      color: #334155;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .dashboard-stat-value {
+      color: #020617;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 800;
+    }
+    .dashboard-score-badge {
+      min-width: 100px;
+      padding: 12px;
+      border: 2px solid #eef2ff;
+      border-radius: 5px 5px 28px 28px;
+      color: #4169ff;
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .dashboard-accuracy {
+      padding: 15px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      color: #4dbb51;
+      font-size: 30px;
+      font-weight: 800;
+    }
+    .contribution-cell {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      background: #d9d9d9;
+    }
+    .contribution-cell.active-1 { background: #d7f1d8; }
+    .contribution-cell.active-2 { background: #a8dca8; }
+    .contribution-cell.active-3 { background: #4fb34f; }
+    .contribution-month {
+      display: grid;
+      grid-template-columns: repeat(4, 13px);
+      grid-auto-rows: 13px;
+      gap: 3px;
+    }
+
+    .portal-header {
+      height: 58px;
+    }
+    .portal-sidebar {
+      width: 76px;
+      padding-top: 20px;
+      gap: 9px;
+    }
+    .portal-sidebar .sidebar-logo {
+      width: 46px;
+      height: 46px;
+      margin-bottom: 11px;
+      border-radius: 7px;
+    }
+    .portal-sidebar .sidebar-logo img {
+      padding: 3px;
+    }
+    .portal-sidebar .portal-nav-item {
+      width: 100%;
+      min-height: 62px;
+      gap: 1px;
+      justify-content: center;
+      border-radius: 0;
+    }
+    .portal-sidebar .portal-nav-item > div {
+      padding: 7px;
+      line-height: 1;
+    }
+    .portal-sidebar .portal-nav-item i {
+      font-size: 19px;
+      font-weight: 400;
+      -webkit-text-stroke: 0.2px currentColor;
+    }
+    .portal-sidebar .portal-nav-item span {
+      margin-top: 2px;
+      font-size: 10px;
+      line-height: 1.1;
+      text-align: center;
+      white-space: nowrap;
+      transform: scale(0.94);
+    }
+    .portal-sidebar .is-active {
+      border-radius: 0;
+      box-shadow: inset 3px 0 0 #4169ff;
+    }
+    .portal-sidebar .sidebar-more {
+      padding-top: 7px;
+    }
+
+    @media (max-width: 767px) {
+      .login-panel-content {
+        width: 100%;
+      }
+      .portal-sidebar {
+        width: 52px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-100 selection:text-blue-700 min-h-screen flex flex-col">
+
+  <!-- ========================================== -->
+  <!-- VIEW 1: REDESIGNED LOGIN PAGE              -->
+  <!-- ========================================== -->
+  <div id="view-login" class="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_18%_25%,rgba(221,230,255,0.65),transparent_35%),radial-gradient(circle_at_84%_16%,rgba(255,233,240,0.55),transparent_38%),#fbfbfd] p-4 sm:p-6 md:p-10 relative">
+    <!-- Card Container -->
+    <div class="w-full max-w-[1088px] min-h-[596px] bg-white/90 rounded-2xl shadow-[0_12px_28px_rgba(26,31,52,0.1)] overflow-hidden grid grid-cols-1 md:grid-cols-2 border border-white/80">
+      
+      <!-- Left Banner Image (Graduation Silhouette) -->
+      <div class="relative min-h-[300px] md:min-h-[564px] bg-[#34233c] overflow-hidden m-4 rounded-lg">
+        <img 
+          src="graduation-sunset.png" 
+          alt="Graduation Celebration" 
+          class="absolute inset-0 w-full h-full object-cover opacity-90"
+        />
+      </div>
+
+      <!-- Right Form Container (Subtle Patterned Background) -->
+      <div class="px-6 py-10 md:px-8 md:py-10 relative bg-white/70 bg-[radial-gradient(#edf0f5_1px,transparent_1px)] [background-size:8px_8px] flex justify-center">
+        <div class="login-panel-content">
+          <!-- College Logo & Name -->
+          <div class="text-center space-y-3 mb-6">
+            <div class="w-9 h-9 mx-auto rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden">
+              <img src="srec-logo.png" alt="Sri Ramakrishna Engineering College logo" class="w-full h-full object-contain">
+            </div>
+            <h2 class="text-[15px] font-extrabold text-slate-900 tracking-tight">Sri Ramakrishna Engineering College</h2>
+          </div>
+
+          <!-- Sign In Header -->
+          <div class="mb-6 space-y-1.5">
+            <h1 class="text-[15px] font-bold text-slate-900">Sign In</h1>
+            <p class="text-[11px] text-slate-500 font-medium">The key to happiness is to sign in.</p>
+          </div>
+
+          <!-- Form -->
+          <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+            <div>
+              <label class="block text-[13px] font-bold text-slate-700 mb-2">Email</label>
+              <input 
+                type="email" 
+                id="loginEmail" 
+                required 
+                class="w-full h-[34px] px-3 bg-white border border-slate-300 rounded-md text-[12px] font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition"
+              >
+            </div>
+
+            <!-- Password is revealed by the next authentication step. -->
+            <div id="passwordStep" class="hidden space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="block text-[13px] font-bold text-slate-700">Password</label>
+                <a href="#" class="text-[11px] text-blue-600 font-semibold hover:underline">Forgot?</a>
+              </div>
+              <input 
+                type="password" 
+                id="loginPassword" 
+                class="w-full h-[34px] px-3 bg-white border border-slate-300 rounded-md text-[12px] font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition"
+              >
+            </div>
+
+            <!-- Action Button -->
+            <button 
+              type="submit" 
+              class="w-full h-[34px] px-4 bg-[#3759f5] hover:bg-blue-700 text-white font-semibold text-[12px] rounded-md shadow-sm transition duration-200 active:scale-[0.99]"
+            >
+              Next
+            </button>
+          </form>
+
+          <!-- System Compatibility Link -->
+          <div class="mt-6 text-center">
+            <a href="#" class="text-[11px] font-bold text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center space-x-1 transition">
+              <span>System Compatibility Check?</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN PORTAL WRAPPER (DASHBOARD & LABS VIEW) -->
+  <div id="portal-wrapper" class="hidden min-h-screen flex flex-col bg-slate-100">
+    
+    <!-- TOP NAVIGATION BAR -->
+    <header class="portal-header bg-white border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-4 shadow-sm">
+      <div class="flex items-center space-x-4 w-1/3">
+        <!-- Logo -->
+        <div class="w-9 h-9 rounded-md flex items-center justify-center overflow-hidden">
+          <img src="srec-logo.png" alt="Sri Ramakrishna Engineering College logo" class="w-full h-full object-contain">
+        </div>
+        <!-- Search input -->
+        <div class="relative w-full max-w-xs">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input 
+            type="text" 
+            placeholder="Search courses, labs, assessments..." 
+            class="w-full pl-8 pr-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+          >
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button class="text-slate-500 hover:text-slate-700 relative p-1.5 rounded-full hover:bg-slate-100">
+          <i class="fa-regular fa-bell text-slate-600 text-sm"></i>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+
+        <button class="text-slate-500 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100">
+          <i class="fa-solid fa-cart-shopping text-slate-600 text-sm"></i>
+        </button>
+
+        <!-- User Profile Menu (Default Avatar Icon) -->
+        <div class="flex items-center space-x-2 pl-2 border-l border-slate-200">
+          <div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-600 text-xs">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <span id="userNameHeader" class="text-xs font-semibold text-slate-700 hidden sm:inline-block">Adharsh Subramaniam</span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden">
+      <!-- REFINED SIDEBAR NAVIGATION -->
+      <aside class="portal-sidebar bg-[#111846] text-[#c7c9e2] flex flex-col items-center flex-shrink-0 z-20">
+        <!-- Top Logo -->
+        <div class="sidebar-logo bg-white flex items-center justify-center shadow-md overflow-hidden">
+          <img src="srec-logo.png" alt="Sri Ramakrishna Engineering College logo" class="w-full h-full object-contain">
+        </div>
+
+        <a href="#" onclick="switchPortalTab('dashboard'); return false;" id="nav-dashboard" class="portal-nav-item flex flex-col items-center text-[#c7c9e2] hover:text-white group w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition">
+            <i class="fa-solid fa-border-all"></i>
+          </div>
+          <span class="text-xs font-medium mt-1">Dashboard</span>
+        </a>
+
+        <a href="#" class="portal-nav-item flex flex-col items-center hover:text-white group text-[#c7c9e2] w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <span class="text-xs font-medium mt-1">Courses</span>
+        </a>
+
+        <a href="#" onclick="switchPortalTab('labs'); return false;" id="nav-labs" class="portal-nav-item flex flex-col items-center hover:text-white group text-[#c7c9e2] w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition relative">
+            <i class="fa-solid fa-display"></i>
+          </div>
+          <span class="text-xs font-medium mt-1">Labs</span>
+        </a>
+
+        <a href="#" class="portal-nav-item flex flex-col items-center hover:text-white group text-[#c7c9e2] w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition">
+            <i class="fa-solid fa-square-terminal"></i>
+          </div>
+          <span class="text-xs font-medium mt-1">Open IDE</span>
+        </a>
+
+        <a href="#" class="portal-nav-item flex flex-col items-center hover:text-white group text-[#c7c9e2] w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition">
+            <i class="fa-solid fa-file-circle-play"></i>
+          </div>
+          <span class="text-xs font-medium mt-1 text-center">Learning<br>Paths</span>
+        </a>
+
+        <a href="#" class="portal-nav-item flex flex-col items-center hover:text-white group text-[#c7c9e2] w-full">
+          <div class="rounded-xl group-hover:bg-[#27378f] transition">
+            <i class="fa-solid fa-file-circle-check"></i>
+          </div>
+          <span class="text-xs font-medium mt-1">Certificates</span>
+        </a>
+
+        <div class="sidebar-more w-full flex flex-col items-center">
+          <a href="#" class="flex flex-col items-center hover:text-white group text-[#c7c9e2]">
+            <div class="rounded-xl group-hover:bg-[#27378f] transition">
+              <i class="fa-solid fa-border-all"></i>
+            </div>
+            <span class="text-xs font-medium mt-1">Go to NERD</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT VIEW CANVAS -->
+      <main class="flex-1 overflow-y-auto bg-slate-100 p-4 md:p-6">
+        
+        <!-- ========================================== -->
+        <!-- VIEW 2: STUDENT DASHBOARD                  -->
+        <!-- ========================================== -->
+        <div id="tab-dashboard-content" class="flex flex-col space-y-6">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="flex space-x-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm text-xs font-medium">
+              <button class="px-4 py-1.5 bg-blue-600 text-white rounded-md shadow-sm">Skill</button>
+              <button class="px-4 py-1.5 text-slate-600 hover:bg-slate-100 rounded-md">Course</button>
+              <button class="px-4 py-1.5 text-slate-600 hover:bg-slate-100 rounded-md">Drives</button>
+            </div>
+            <div class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-md border border-slate-200">
+              Last Updated on <span class="font-semibold text-slate-700">22/10/2026 08:00 PM</span>
+            </div>
+          </div>
+
+          <h2 class="text-xl font-bold text-slate-800">Dashboard</h2>
+
+          <!-- Top Banner Card -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
+            <div class="h-32 bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-900 relative overflow-hidden">
+              <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+              <div class="absolute bottom-2 right-4 text-white/40 text-xs font-mono">
+                <i class="fa-solid fa-tree"></i> SREC-CAMPUS-2026
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0 relative flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div class="flex flex-col sm:flex-row items-start sm:items-end space-y-3 sm:space-y-0 sm:space-x-4 -mt-12">
+                <!-- Default Avatar Image -->
+                <div class="w-24 h-24 rounded-full border-4 border-white bg-slate-200 text-slate-600 shadow-lg flex items-center justify-center text-4xl flex-shrink-0">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="mb-1">
+                  <h3 id="dashUserName" contenteditable="true" spellcheck="false" oninput="syncUserNameChange(this.textContent)" class="text-2xl font-bold text-slate-900 focus:outline-none">Adharsh Subramaniam</h3>
+                  <p id="dashUserEmail" class="text-xs text-slate-500 font-mono">adharshsubramaniam.2511006@srec.ac.in</p>
+                </div>
+              </div>
+
+              <!-- Student Metadata Badges -->
+              <div class="flex flex-wrap gap-2 text-xs text-slate-700 font-medium pt-2 border-t md:border-t-0 border-slate-100">
+                <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg">
+                  Register Number : <span class="font-bold text-slate-900">71812511006</span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg">
+                  Degree : <span class="font-bold text-slate-900">B.E. IT</span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg">
+                  Batch : <span class="font-bold text-slate-900">2029</span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg">
+                  College : <span class="font-bold text-slate-900">Sri Ramakrishna Engineering College</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-2 grid grid-cols-1 lg:grid-cols-3 gap-5">
+              <div class="dashboard-card p-5">
+                <h4 class="dashboard-card-title border-b border-slate-100 pb-4">Coding</h4>
+                <div class="grid grid-cols-2 gap-6 pt-5">
+                  <div><span class="dashboard-stat-label">Questions Attended</span><div class="dashboard-stat-value mt-2">583</div></div>
+                  <div><span class="dashboard-stat-label">Solved Correctly</span><div class="dashboard-stat-value mt-2">552</div></div>
+                </div>
+                <div class="flex items-center justify-between mt-5">
+                  <div><span class="dashboard-stat-label block mb-2 text-slate-400">Your Score</span><div class="dashboard-score-badge">562</div></div>
+                  <div><span class="dashboard-stat-label block mb-2">Accuracy</span><div class="dashboard-accuracy">96.27%</div></div>
+                </div>
+          </div>
+              <div class="dashboard-card p-5">
+                <h4 class="dashboard-card-title border-b border-slate-100 pb-4">Projects</h4>
+                <div class="grid grid-cols-2 gap-6 pt-5">
+                  <div><span class="dashboard-stat-label">Major Attended</span><div class="dashboard-stat-value mt-2">0</div></div>
+                  <div><span class="dashboard-stat-label">Minor Attended</span><div class="dashboard-stat-value mt-2">0</div></div>
+                </div>
+                <div class="mt-5"><span class="dashboard-stat-label block mb-2 text-slate-400">Your Score</span><div class="dashboard-score-badge">0</div></div>
+              </div>
+              <div class="dashboard-card p-5">
+                <h4 class="dashboard-card-title border-b border-slate-100 pb-4">MCQ</h4>
+                <div class="grid grid-cols-2 gap-6 pt-5">
+                  <div><span class="dashboard-stat-label">Questions Attended</span><div class="dashboard-stat-value mt-2">545</div></div>
+                  <div><span class="dashboard-stat-label">Solved Correctly</span><div class="dashboard-stat-value mt-2">475</div></div>
+                </div>
+                <div class="flex items-center justify-between mt-5">
+                  <div><span class="dashboard-stat-label block mb-2 text-slate-400">Your Score</span><div class="dashboard-score-badge">475</div></div>
+                  <div><span class="dashboard-stat-label block mb-2">Accuracy</span><div class="dashboard-accuracy">88.6%</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-3 dashboard-card p-5">
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-4"><h4 class="dashboard-card-title">Contributions</h4><button class="px-3 py-1.5 border border-slate-300 rounded-md text-xs text-slate-700">Codings⌄</button></div>
+                <div class="flex items-center gap-3 text-[11px] text-slate-500"><span>Less</span><i class="contribution-cell"></i><i class="contribution-cell active-1"></i><i class="contribution-cell active-2"></i><i class="contribution-cell active-3"></i><span>More</span><span class="ml-2">2026⌄</span></div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
+                <div><span class="dashboard-stat-label">Total Contribution</span><div class="dashboard-stat-value mt-2">26 days</div></div>
+                <div><span class="dashboard-stat-label">Total Hours Spent</span><div class="dashboard-stat-value mt-2">18.59 Hours</div></div>
+                <div><span class="dashboard-stat-label">Average Time</span><div class="dashboard-stat-value mt-2">0.71 Hours per day</div></div>
+              </div>
+              <div id="contributionHeatmap" class="flex justify-between gap-5 overflow-hidden"></div>
+            </div>
+          <!-- Score Cards & Gauge Row -->
+          <div class="order-1 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <h4 class="font-bold text-slate-800 text-sm mb-4">Neo-PAT</h4>
+                <div class="my-8 text-center py-6 border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
+                  <p class="text-slate-400 font-bold text-sm">No PAT Courses Taken</p>
+                </div>
+              </div>
+
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-bold text-slate-800 text-sm">Neo-Colab</h4>
+                  <span class="text-[10px] bg-rose-100 text-rose-600 font-bold px-2 py-0.5 rounded">C Programming(202529)</span>
+                </div>
+
+                <div class="my-4 text-center">
+                  <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Your Score</span>
+                  <div class="text-3xl font-extrabold text-slate-900 mt-1">1772.5</div>
+                </div>
+
+                <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+                  <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">Level 4 <i class="fa-solid fa-info-circle ml-1"></i></span>
+                  <span class="text-[10px] bg-sky-100 text-sky-700 font-semibold px-2 py-0.5 rounded">Data Structures(25IT2292)</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Solved Questions Gauge -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+              <h4 class="font-bold text-slate-800 text-sm mb-2">Solved Questions</h4>
+              
+              <div class="flex items-center space-x-6 my-2">
+                <div class="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-slate-100" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="text-blue-600" stroke-dasharray="90, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  </svg>
+                  <div class="absolute text-center">
+                    <span class="text-base font-extrabold text-slate-900 block leading-none">1027/1128</span>
+                    <span class="text-[9px] text-slate-400 font-medium">Questions</span>
+                  </div>
+                </div>
+
+                <div class="space-y-3 flex-1">
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-600 font-medium">Easy</span>
+                      <span class="font-bold text-slate-800">467/516</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-emerald-500 rounded-full" style="width: 90%;"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-600 font-medium">Medium</span>
+                      <span class="font-bold text-slate-800">438/480</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-amber-500 rounded-full" style="width: 91%;"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-600 font-medium">Hard</span>
+                      <span class="font-bold text-slate-800">122/132</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-rose-500 rounded-full" style="width: 92%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: MY LABS GRID VIEW                  -->
+        <!-- ========================================== -->
+        <div id="tab-labs-content" class="hidden">
+          <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_250px] gap-6">
+            <div class="min-w-0 space-y-7">
+              <section>
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-base font-bold text-slate-900">Recently Viewed</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
+                  <div onclick="openLabDetail('2025_29_III_DATA STRUCTURES LAB_IT A')" class="lab-card group">
+                    <div class="flex items-start justify-between"><div class="lab-icon bg-emerald-500">&gt;_</div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div>
+                    <h3 class="lab-title">2025_29_III_DATA STRUCTURES LAB_IT A</h3><div class="lab-progress"><span></span></div>
+                    <div class="lab-status"><span>Enrolled, Not Started</span><b>0%</b></div>
+                    <div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> Assessment</span><span><i class="fa-regular fa-clipboard"></i> Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Jul, 26</span><span><i class="fa-regular fa-calendar-check"></i> 31 Dec, 26</span></div>
+                  </div>
+                  <div onclick="openLabDetail('2025_29_III_Object Oriented Programming Laboratory')" class="lab-card group">
+                    <div class="flex items-start justify-between"><div class="lab-icon bg-fuchsia-700"><i class="fa-solid fa-route"></i></div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div>
+                    <h3 class="lab-title">2025_29_III_Object Oriented Programming Laboratory...</h3><div class="lab-progress"><span></span></div>
+                    <div class="lab-status"><span>Enrolled, Not Started</span><b>0%</b></div>
+                    <div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> Assessment</span><span><i class="fa-regular fa-clipboard"></i> Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Jul, 26</span><span><i class="fa-regular fa-calendar-check"></i> 31 Dec, 26</span></div>
+                  </div>
+                  <div onclick="openLabDetail('Mock Test_Cycle 1')" class="lab-card group">
+                    <div class="flex items-start justify-between"><div class="lab-icon bg-fuchsia-700">&gt;_</div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div>
+                    <h3 class="lab-title">Mock Test_Cycle 1</h3><div class="lab-progress"><span class="bg-rose-500"></span></div>
+                    <div class="lab-status text-rose-500"><span>Validity Expired</span><b>0%</b></div>
+                    <div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> Assessment</span><span><i class="fa-regular fa-clipboard"></i> Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Sep, 26</span><span><i class="fa-regular fa-calendar-check"></i> 28 Sep, 26</span></div>
+                  </div>
+                  <div onclick="openLabDetail('2025_29_I_IT_A_C Programming Lab')" class="lab-card group">
+                    <div class="flex items-start justify-between"><div class="lab-icon bg-blue-900"><i class="fa-regular fa-file-lines"></i></div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div>
+                    <h3 class="lab-title">2025_29_I_IT_A_C Programming Lab</h3><div class="lab-progress"><span class="bg-rose-500"></span></div>
+                    <div class="lab-status text-rose-500"><span>Validity Expired</span><b>0%</b></div>
+                    <div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> Assessment</span><span><i class="fa-regular fa-clipboard"></i> Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Sep, 25</span><span><i class="fa-regular fa-calendar-check"></i> 28 Feb, 26</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                  <h2 class="text-base font-bold text-slate-900">My Labs</h2>
+                  <div class="flex gap-2">
+                    <select class="lab-control"><option>Sort By</option><option>Recent</option><option>Name</option></select>
+                    <button class="lab-control flex items-center gap-2"><i class="fa-solid fa-sliders text-slate-400"></i> Filters</button>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
+                  <div onclick="openLabDetail('Version 2_Product Based Assessment')" class="lab-card group"><div class="flex items-start justify-between"><div class="lab-icon bg-blue-600"><i class="fa-solid fa-route"></i></div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div><h3 class="lab-title">Version 2_Product Based Assessment</h3><div class="lab-progress"><span class="bg-rose-500"></span></div><div class="lab-status text-rose-500"><span>Validity Expired</span><b>0%</b></div><div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> 1 Assessment</span><span><i class="fa-regular fa-clipboard"></i> -- Practice Test</span><span><i class="fa-regular fa-calendar"></i> 23 Sep, 26</span><span><i class="fa-regular fa-calendar-check"></i> 10 Oct, 26</span></div></div>
+                  <div onclick="openLabDetail('Mock Test_Cycle 1')" class="lab-card group"><div class="flex items-start justify-between"><div class="lab-icon bg-emerald-500">&gt;_</div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div><h3 class="lab-title">Mock Test_Cycle 1</h3><div class="lab-progress"><span class="bg-rose-500"></span></div><div class="lab-status text-rose-500"><span>Validity Expired</span><b>0%</b></div><div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> 1 Assessment</span><span><i class="fa-regular fa-clipboard"></i> -- Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Sep, 26</span><span><i class="fa-regular fa-calendar-check"></i> 28 Sep, 26</span></div></div>
+                  <div onclick="openLabDetail('2025_29_III_Object Oriented Programming Laboratory')" class="lab-card group"><div class="flex items-start justify-between"><div class="lab-icon bg-fuchsia-700"><i class="fa-regular fa-file-lines"></i></div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div><h3 class="lab-title">2025_29_III_Object Oriented Programming Laboratory...</h3><div class="lab-progress"><span></span></div><div class="lab-status"><span>Enrolled, Not Started</span><b>0%</b></div><div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> 40 Assessment</span><span><i class="fa-regular fa-clipboard"></i> -- Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Jul, 26</span><span><i class="fa-regular fa-calendar-check"></i> 31 Dec, 26</span></div></div>
+                  <div onclick="openLabDetail('2025_29_III_DATA STRUCTURES LAB_IT A')" class="lab-card group"><div class="flex items-start justify-between"><div class="lab-icon bg-emerald-500">&gt;_</div><i class="fa-solid fa-circle-info text-slate-300 text-xs"></i></div><h3 class="lab-title">2025_29_III_DATA STRUCTURES LAB_IT A</h3><div class="lab-progress"><span></span></div><div class="lab-status"><span>Enrolled, Not Started</span><b>0%</b></div><div class="lab-meta"><span><i class="fa-regular fa-clipboard"></i> 43 Assessment</span><span><i class="fa-regular fa-clipboard"></i> -- Practice Test</span><span><i class="fa-regular fa-calendar"></i> 1 Jul, 26</span><span><i class="fa-regular fa-calendar-check"></i> 31 Dec, 26</span></div></div>
+                </div>
+              </section>
+            </div>
+            <aside class="hidden xl:block border-l border-slate-200 pl-5">
+              <h2 class="text-base font-bold text-slate-900 mb-5">Labs &amp; Badges</h2>
+              <div class="space-y-3">
+                <div class="lab-summary"><i class="fa-regular fa-clipboard"></i><span>Labs Enrolled</span><b>6</b></div>
+                <div class="lab-summary"><i class="fa-regular fa-folder-open"></i><span>Labs Completed</span><b>0</b></div>
+                <div class="lab-summary"><i class="fa-regular fa-award"></i><span>Badges</span><b>0</b></div>
+                <div class="lab-summary"><i class="fa-solid fa-medal"></i><span>Super Badges</span><b>0</b></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: LAB DETAIL & 11 WEEKS EXERCISES    -->
+        <!-- ========================================== -->
+        <div id="tab-lab-detail-content" class="hidden space-y-4">
+          <!-- Lab Banner Header -->
+          <div class="bg-[#082531] text-white rounded-xl p-4 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-slate-700">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white text-sm">
+                <i class="fa-solid fa-book"></i>
+              </div>
+              <div>
+                <h2 id="labDetailTitle" class="text-sm font-bold tracking-wide">2025_29_III_DATA STRUCTURES LAB_IT A</h2>
+                <div class="w-48 bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1">
+                  <div class="bg-emerald-400 h-full w-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <button class="bg-teal-800/80 hover:bg-teal-700 border border-teal-600 text-xs text-white font-semibold px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-download text-[10px]"></i>
+              <span>Download Neo Browser</span>
+            </button>
+          </div>
+
+          <!-- Metadata Pill Badges -->
+          <div class="flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
+            <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 flex items-center space-x-2">
+              <i class="fa-regular fa-calendar text-emerald-600"></i>
+              <span>Start Date: <span class="text-emerald-600">1 Jul, 26</span></span>
+            </div>
+            <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 flex items-center space-x-2">
+              <i class="fa-regular fa-calendar-xmark text-rose-600"></i>
+              <span>End Date: <span class="text-rose-600">31 Dec, 26</span></span>
+            </div>
+            <div class="bg-white px-3 py-1.5 rounded-lg border border-slate-200 flex items-center space-x-2">
+              <i class="fa-solid fa-clipboard-list text-blue-600"></i>
+              <span>Total Weeks: 11</span>
+            </div>
+          </div>
+
+          <!-- Accordion List featuring ALL 11 WEEKS -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <!-- Left Module Accordion List (11 Weeks) -->
+            <div class="md:col-span-5 bg-white rounded-xl border border-slate-200 p-3 space-y-2 h-[550px] overflow-y-auto">
+              <div class="relative mb-3">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                <input type="text" placeholder="Search lab modules..." class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+              </div>
+
+              <!-- Rendered 11 Weeks dynamically or static list -->
+              <div id="weeksAccordionContainer" class="space-y-2">
+                <!-- Javascript will generate 11 weeks here -->
+              </div>
+            </div>
+
+            <!-- Right Workspace Test Details -->
+            <div class="md:col-span-7 bg-white rounded-xl border border-slate-200 p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-slate-100 gap-2">
+                  <div>
+                    <h3 id="selectedLabTestTitle" class="font-bold text-slate-900 text-sm">Week 1 - Array Implementation of List ADT</h3>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Lab Practice & Evaluation Assessment</p>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button class="text-xs text-blue-600 hover:underline font-semibold">Instructions</button>
+                    <button onclick="launchNeoBrowserLoader()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-lg shadow-sm transition animate-bounce">
+                      Start Test
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mt-4 bg-slate-50 p-3 rounded-lg flex justify-between items-center text-xs">
+                  <span class="text-slate-600">Duration: <strong class="text-slate-800">90 Mins</strong></span>
+                  <span class="text-slate-600">Total Score: <strong class="text-slate-800">100.00</strong></span>
+                </div>
+
+                <div class="mt-4 border border-slate-200 rounded-lg overflow-hidden text-xs">
+                  <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-100 text-slate-600 font-semibold border-b border-slate-200">
+                      <tr>
+                        <th class="p-2.5">Sections</th>
+                        <th class="p-2.5">Questions</th>
+                        <th class="p-2.5">Marks</th>
+                        <th class="p-2.5">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                      <tr>
+                        <td class="p-2.5 font-bold">MCQ</td>
+                        <td class="p-2.5">10</td>
+                        <td class="p-2.5">10</td>
+                        <td class="p-2.5 text-emerald-600 font-bold">Ready</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-bold">CODING</td>
+                        <td class="p-2.5">2</td>
+                        <td class="p-2.5">20</td>
+                        <td class="p-2.5 text-emerald-600 font-bold">Ready</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="mt-6 text-center">
+                <span class="text-xs text-slate-400">Ensure a stable network connection before starting the test.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- VIEW 5: NEOBROWSER SPLASH LOADING SCREEN   -->
+  <!-- ========================================== -->
+  <div id="view-neobrowser-loader" class="hidden fixed inset-0 z-50 bg-[#061b24] text-white flex flex-col items-center justify-center p-6 select-none">
+    <div class="text-center max-w-sm w-full space-y-6">
+      <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+        <div class="absolute inset-0 bg-emerald-400/20 rounded-full blur-xl animate-pulse"></div>
+        <img src="neobrowser-logo.png" alt="NeoBrowser" class="w-20 h-20 object-contain animate-pulse-slow">
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold tracking-wider text-emerald-400">NeoBrowser</h3>
+        <p class="text-xs text-slate-400 mt-1">Initializing Secure Assessment Environment</p>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 text-xs font-mono text-left space-y-2 text-slate-300">
+        <div class="test-user-identity">
+          <i class="fa-solid fa-spinner fa-spin text-emerald-400"></i>
+          <span id="loaderStatusText">Checking system security parameters...</span>
+        </div>
+        <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+          <div id="loaderProgressBar" class="bg-emerald-400 h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <p class="text-[11px] text-slate-500">Please do not close this window or switch application tabs.</p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- VIEW 6: MCQ TEST ENVIRONMENT               -->
+  <!-- ========================================== -->
+  <div id="view-mcq-test" class="hidden min-h-screen flex flex-col bg-slate-200">
+    <!-- Dark Blue Top Header -->
+    <header class="bg-[#0b192c] text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-800 shadow-md">
+      <!-- Left: User Profile Metadata with EDITABLE NAME & DEFAULT AVATAR -->
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold border border-slate-500">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1">
+            <!-- Inline Editable User Name -->
+            <input 
+              type="text" 
+              id="editableUserNameMCQ" 
+              value="Adharsh Subramaniam" 
+              oninput="syncUserNameChange(this.value)"
+              class="test-user-name bg-transparent text-xs font-bold text-white focus:outline-none focus:border-b focus:border-blue-400 py-0 px-0"
+            >
+            <span contenteditable="true" spellcheck="false" oninput="syncRollNumber(this.textContent)" class="test-user-roll text-[10px] text-slate-400 font-mono focus:outline-none">71812511006</span>
+          </div>
+          <p id="mcqUserEmailDisplay" contenteditable="true" spellcheck="false" oninput="syncEmailChange(this.textContent)" class="text-[10px] text-slate-400 font-mono focus:outline-none">arjunks.2501042@srec.ac.in</p>
+        </div>
+      </div>
+
+      <!-- Center: Course Code -->
+      <div class="text-center">
+        <h2 id="editableMcqTitle" contenteditable="true" spellcheck="false" oninput="syncMcqTitle(this.textContent)" class="text-xs font-bold text-white tracking-wide focus:outline-none">25AD2281_OOP_Cycle Test 2</h2>
+        <div class="flex items-center justify-center space-x-2 text-[10px] text-slate-400 mt-0.5">
+          <span contenteditable="true" spellcheck="false" class="bg-slate-800 px-1.5 py-0.5 rounded text-blue-300 font-mono focus:outline-none">AD54D</span>
+          <span>• 2 Sections</span>
+          <span>• 10 Questions</span>
+        </div>
+      </div>
+
+      <!-- Right: Mobile Signal Range Icon & Controls -->
+      <div class="flex items-center space-x-4">
+        <button class="text-slate-400 hover:text-white text-xs">
+          <i class="fa-regular fa-moon"></i>
+        </button>
+        <!-- Mobile Range Bars Icon -->
+        <div class="flex items-center space-x-1 text-emerald-400 text-xs" title="Network Signal Strength">
+          <i class="fa-solid fa-signal text-xs"></i>
+        </div>
+        <div class="flex items-center space-x-1 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700 text-xs font-mono text-white">
+          <i class="fa-regular fa-circle-pause"></i>
+          <span id="mcqTimerDisplay">2:00:00</span>
+        </div>
+        <button onclick="openSubmitModal('MCQ')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded transition">
+          Submit Section
+        </button>
+      </div>
+    </header>
+
+    <!-- Sub-header: MCQ Navigator Bar -->
+    <div class="bg-slate-100 border-b border-slate-300 px-4 py-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+      <div class="flex items-center space-x-3">
+        <div class="relative">
+          <select class="bg-white border border-slate-300 text-slate-800 text-xs font-bold px-3 py-1 rounded shadow-sm">
+            <option>MCQ (10)</option>
+          </select>
+        </div>
+        <!-- Question Pills Nav -->
+        <div id="mcqQuestionPills" class="flex space-x-1 overflow-x-auto">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Legend Indicator Badges -->
+      <div class="flex items-center space-x-3 text-[11px] text-slate-600">
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span> Answered</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 mr-1"></span> Skipped</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 mr-1"></span> Bookmarked</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-300 mr-1"></span> Not Viewed</span>
+      </div>
+    </div>
+
+    <!-- Main MCQ Question View Split Pane -->
+    <main class="flex-1 p-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto">
+      <!-- Left Pane: Question Text & Marks Styling (+10 in Green, -0 in Red) -->
+      <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+            <div class="test-user-identity">
+              <span id="mcqQuestionNumberLabel" class="text-xs font-bold text-slate-500 uppercase">QUESTION 1/10</span>
+              <span class="bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded">MCQ</span>
+            </div>
+            <!-- Marks Badge (+10 Green, -0 Red) -->
+            <div class="text-xs font-bold bg-slate-50 px-2 py-1 rounded border flex space-x-1">
+              <span class="text-emerald-600">+10</span>
+              <span class="text-rose-500">-0</span>
+            </div>
+          </div>
+
+          <h3 id="mcqQuestionText" class="text-sm font-semibold text-slate-800 leading-relaxed">
+            What is the result if a method is synchronized and two threads try to execute it simultaneously?
+          </h3>
+        </div>
+      </div>
+
+      <!-- Right Pane: Multiple Choice Answers -->
+      <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-xs font-bold text-slate-500 uppercase">Choose Your Answer</span>
+            <button onclick="clearMcqSelection()" class="text-xs text-blue-600 hover:underline">Clear</button>
+          </div>
+
+          <div id="mcqOptionsContainer" class="space-y-3">
+            <!-- Options rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- MCQ Bottom Action Bar -->
+    <footer class="bg-white border-t border-slate-300 px-4 py-3 flex justify-between items-center">
+      <button class="text-xs font-bold text-slate-600 hover:text-slate-900 border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50">
+        Summary <span id="mcqSummaryCount">0/10</span> &gt;
+      </button>
+
+      <div class="flex items-center space-x-3">
+        <button id="mcqBookmarkBtn" onclick="toggleMcqBookmark()" class="text-xs font-bold text-amber-600 border border-amber-400 hover:bg-amber-50 px-4 py-2 rounded-lg transition flex items-center space-x-1.5">
+          <i class="fa-regular fa-star"></i>
+          <span>Bookmark</span>
+        </button>
+
+        <button onclick="saveAndNextMcq()" class="text-xs font-bold text-white bg-teal-600 hover:bg-teal-500 px-5 py-2 rounded-lg shadow-sm transition">
+          Save & Next &gt;
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- VIEW 7: CODING TEST ENVIRONMENT           -->
+  <!-- ========================================== -->
+  <div id="view-coding-test" class="hidden coding-test-view flex flex-col bg-slate-200">
+    <!-- Dark Blue Banner Header -->
+    <header class="bg-[#0b192c] text-white px-4 py-2 flex items-center justify-between border-b border-slate-800 shadow-md">
+      <!-- Left Profile Metadata with EDITABLE NAME -->
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold border border-slate-500">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1">
+            <!-- Inline Editable User Name -->
+            <input 
+              type="text" 
+              id="editableUserNameCoding" 
+              value="Adharsh Subramaniam" 
+              oninput="syncUserNameChange(this.value)"
+              class="test-user-name bg-transparent text-xs font-bold text-white focus:outline-none focus:border-b focus:border-blue-400 cursor-pointer py-0 px-0"
+              title="Click to edit name"
+            >
+            <span contenteditable="true" spellcheck="false" oninput="syncRollNumber(this.textContent)" class="test-user-roll text-[10px] text-slate-400 font-mono focus:outline-none">71812511006</span>
+          </div>
+          <p id="codingUserEmailDisplay" contenteditable="true" spellcheck="false" oninput="syncEmailChange(this.textContent)" class="text-[10px] text-slate-400 font-mono focus:outline-none">arjun.2501040@srec.ac.in</p>
+        </div>
+      </div>
+
+      <!-- Center Course Metadata -->
+      <div class="text-center">
+        <h2 contenteditable="true" spellcheck="false" class="text-xs font-bold text-white tracking-wide focus:outline-none">25CS2251_OOP_Semester</h2>
+        <div class="flex items-center justify-center space-x-2 text-[10px] text-slate-400 mt-0.5">
+          <span contenteditable="true" spellcheck="false" class="bg-slate-800 px-1.5 py-0.5 rounded text-blue-300 font-mono focus:outline-none">AD54D</span>
+          <span contenteditable="true" spellcheck="false" class="focus:outline-none">• 2 Sections</span>
+          <span contenteditable="true" spellcheck="false" class="focus:outline-none">• 2 Questions</span>
+        </div>
+      </div>
+
+      <!-- Right Controls: Mobile Signal Bars Icon -->
+      <div class="flex items-center space-x-4">
+        <button class="text-slate-400 hover:text-white text-xs">
+          <i class="fa-regular fa-moon"></i>
+        </button>
+        <!-- Mobile Range Bars Icon -->
+        <div class="flex items-center space-x-1 text-emerald-400 text-xs" title="Network Signal Strength">
+          <i class="fa-solid fa-signal text-xs"></i>
+        </div>
+        <div class="flex items-center space-x-1 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700 text-xs font-mono text-white">
+          <i class="fa-regular fa-circle-pause"></i>
+          <span id="codingTimerDisplay">2:00:00</span>
+        </div>
+        <button onclick="finishCompleteTest()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded transition">
+          Submit Test
+        </button>
+      </div>
+    </header>
+
+    <!-- Sub-header: Coding Question Navigator Bar -->
+    <div class="bg-slate-100 border-b border-slate-300 px-4 py-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+      <div class="flex items-center space-x-3">
+        <div class="relative">
+          <select class="coding-question-selector bg-white border border-slate-300 text-slate-800 text-xs font-bold px-3 py-1 rounded shadow-sm">
+            <option>CODING (2)</option>
+          </select>
+        </div>
+        <div class="flex space-x-1">
+          <button id="codeQBtn-1" onclick="switchCodingQuestion(1)" class="w-6 h-6 rounded bg-blue-800 text-white font-bold text-xs flex items-center justify-center shadow-sm">1</button>
+          <button id="codeQBtn-2" onclick="switchCodingQuestion(2)" class="w-6 h-6 rounded bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-300">2</button>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="flex items-center space-x-3 text-[11px] text-slate-600">
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span> Answered</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 mr-1"></span> Bookmarked</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 mr-1"></span> Skipped</span>
+        <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-300 mr-1"></span> Not Viewed</span>
+      </div>
+    </div>
+
+    <!-- Coding Area Workspace -->
+    <main class="coding-test-main flex-1 p-3 grid grid-cols-1 lg:grid-cols-2 gap-3 overflow-hidden">
+      <!-- Left Split Pane: Problem Statement & Marks Badge (+10 Green, -0 Red) -->
+      <div class="coding-question-scroll-shell">
+       <div class="coding-question-pane coding-watermark-panel relative rounded-xl border border-slate-300 p-5 overflow-y-auto space-y-4 text-[13px] leading-relaxed text-slate-700 shadow-sm before:absolute before:inset-0 before:pointer-events-none before:bg-[url('coding-watermark.png')] before:bg-[length:100%_100%] before:bg-no-repeat       before:opacity-[0.45]">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+          <div class="flex items-center space-x-2">
+            <span id="codingQNumLabel" class="font-bold text-slate-500 uppercase">QUESTION 1/2</span>
+            <span class="bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded">CODE</span>
+          </div>
+          <!-- Marks Badge (+10 Green, -0 Red) -->
+          <div class="coding-marks-badge text-xs font-bold flex items-center space-x-2">
+            <span class="text-emerald-600">+10</span>
+            <span class="coding-marks-divider" aria-hidden="true"></span>
+            <span class="text-rose-500">-0</span>
+          </div>
+         </div>
+        <div id="codingStatementContent">
+          <h3 class="font-bold text-slate-900 text-sm mb-2">Problem Statement</h3>
+          <p id="codingProblemText" class="text-slate-700 leading-relaxed mb-2">
+            On his property, a farmer is sowing potato seeds. He thinks that everything about his plants' growth and good output comes from nature. If the weight of each potato is divisible by five, he can plant it in the ground for growth. Otherwise, change the seed to acquire a good harvest.
+          </p>
+          <p class="text-slate-700">
+            Write the array into a file named <strong>output.txt</strong> and create a method to monitor seed quality and assist the seed company in making more money.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 mb-1">Input Format</h4>
+          <div class="coding-info-box p-3 rounded-lg border text-slate-600">
+            <p id="codingInputFormat">The first line of input consists of an integer <strong>N</strong>, representing the number of seeds.<br><br>The second line consists of <strong>N</strong> space-separated integers, representing the values of their grams.</p>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 mb-1">Output Format</h4>
+          <div class="coding-info-box p-3 rounded-lg border text-slate-600">
+            <p id="codingOutputFormat">The output prints the type of seed that can be planted or changed for each of the <strong>N</strong> values in one of the following formats:<br><br>1. If the seed is changed, print "Change X gram seed" where X is the value of the grams.<br>2. If the seed is planted, print "Plant X gram seed" where X is the value of the grams.<br><br>Refer to the sample output for the formatting specifications.</p>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 mb-1">Code Constraints</h4>
+          <div class="coding-info-box p-3 rounded-lg border text-slate-600">
+            <p class="text-slate-500 font-mono text-[11px]">The given test cases fall under the following constraints:</p>
+            <p id="codingConstraintOne" class="text-slate-500 font-mono text-[11px]">1 ≤ N ≤ 50</p>
+            <p id="codingConstraintTwo" class="text-slate-500 font-mono text-[11px]">1 ≤ Each value of grams ≤ 100</p>
+            <p id="codingConstraintThree" class="hidden text-slate-500 font-mono text-[11px]"></p>
+            <p id="codingConstraintFour" class="hidden text-slate-500 font-mono text-[11px]"></p>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 mb-2">Sample test cases :</h4>
+          <div class="space-y-2">
+            <div class="text-xs font-bold text-slate-700 mb-1">Case 1</div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="coding-sample-box p-3 rounded-lg border">
+                <span class="font-bold text-slate-700 text-[10px] block mb-3">Input 1 :</span>
+                <pre id="codingSampleInput" class="font-mono text-[11px] text-slate-700 whitespace-pre-wrap">5
+                23 12 7 2 5</pre>
+              </div>
+              <div class="coding-sample-box p-3 rounded-lg border">
+                <span class="font-bold text-slate-700 text-[10px] block mb-3">Output 1 :</span>
+                <pre id="codingSampleOutput" class="font-mono text-[11px] text-slate-700 whitespace-pre-wrap">                Change 23 gram seed
+                Change 12 gram seed
+                Change 7 gram seed
+                Change 2 gram seed
+                Plant 5 gram seed</pre>
+              </div>
+            </div>
+            <div class="text-xs font-bold text-slate-700 mb-1 mt-3">Case 2</div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="coding-sample-box p-3 rounded-lg border">
+                <span class="font-bold text-slate-700 text-[10px] block mb-3">Input 2 :</span>
+                                <pre id="codingSampleInput2" class="font-mono text-[11px] text-slate-700 whitespace-pre-wrap">10
+                68 21 65 23 98 57 25 49 96 94</pre>
+              </div>
+              <div class="coding-sample-box p-3 rounded-lg border">
+                <span class="font-bold text-slate-700 text-[10px] block mb-3">Output 2 :</span>
+                <pre id="codingSampleOutput2" class="font-mono text-[11px] text-slate-700 whitespace-pre-wrap">Change 68 gram seed
+                Change 21 gram seed
+                Plant 65 gram seed
+                Change 23 gram seed
+                Change 98 gram seed
+                Change 57 gram seed
+                Plant 25 gram seed
+                Change 49 gram seed
+                Change 96 gram seed
+                Change 94 gram seed</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="coding-question-scroll-controls" aria-label="Question scroll controls">
+         <button type="button" onclick="scrollCodingQuestion(-1)" aria-label="Scroll question up"><i class="fa-solid fa-chevron-up text-[9px]"></i></button>
+         <button type="button" onclick="scrollCodingQuestion(1)" aria-label="Scroll question down"><i class="fa-solid fa-chevron-down text-[9px]"></i></button>
+       </div>
+      </div>
+
+      <!-- Right Split Pane: Java Code Editor with Keyword Highlighting & Exact Tool Buttons -->
+      <div class="coding-editor-pane bg-white rounded-xl border border-slate-300 flex flex-col justify-between overflow-hidden shadow-sm">
+        <div class="coding-editor-content flex-1 flex flex-col overflow-hidden">
+          
+          <!-- Collapsible Header Snippet Accordion -->
+          <div id="headerSnippetSection" class="border-b border-slate-200">
+            <button onclick="toggleSnippet('headerSnippet')" class="w-full px-4 py-2 bg-slate-50 hover:bg-slate-100 flex justify-between items-center text-xs font-semibold text-slate-700 border-b border-slate-200">
+              <span>Header Snippet</span>
+              <i class="fa-solid fa-chevron-up text-[10px] text-slate-400"></i>
+            </button>
+            <div id="headerSnippet" class="snippet-content bg-slate-50/50 p-3 font-mono text-xs text-slate-700 space-y-1 border-b border-slate-200" contenteditable="false" aria-readonly="true" spellcheck="false">
+              <div class="flex"><span class="snippet-line-number">1</span><span class="java-keyword">import</span> java.io.*;</div>
+              <div class="flex"><span class="snippet-line-number">2</span><span class="java-keyword">import</span> java.util.Scanner;</div>
+              <div class="flex"><span class="snippet-line-number">3</span></div>
+            </div>
+          </div>
+
+          <!-- Code Editor Language & REFINED TOOLBAR BUTTONS (Exact reference icons/style) -->
+          <div class="px-4 py-2 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+            <select id="codingLanguageSelect" class="bg-white border border-slate-300 rounded px-2.5 py-1 text-xs font-bold text-slate-700 focus:outline-none">
+              <option value="Java (11)">Java (11) v</option>
+            </select>
+
+            <!-- Reference-style Clear, Play, and Submit controls -->
+            <div class="flex items-center space-x-2">
+              <button onclick="clearCodeEditor()" class="px-3 h-8 bg-white hover:bg-slate-50 text-slate-600 rounded-md flex items-center justify-center text-xs shadow-sm transition border border-slate-300" title="Clear Code">
+                Clear
+              </button>
+              <button onclick="runSampleTests()" class="w-8 h-8 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center text-xs shadow-sm transition border border-blue-700" title="Run Code">
+                <span aria-hidden="true" class="text-base leading-none">▷</span>
+              </button>
+              <button onclick="runSampleTests()" class="w-8 h-8 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md flex items-center justify-center text-xs shadow-sm transition" title="Submit Code">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M8 17.5H6.7a4.35 4.35 0 1 1 1.1-8.55A5.65 5.65 0 0 1 18.35 10h.2A3.65 3.65 0 1 1 18 17.5h-2"></path>
+                  <path d="M12 17.5V7.25"></path>
+                  <path d="m8.9 10.35 3.1-3.1 3.1 3.1"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Code Editor Container with Real-Time Java Keyword Syntax Highlighting -->
+          <div class="flex-1 min-h-0 p-3 editor-container bg-white">
+            <div id="editorActiveLine" class="editor-active-line" aria-hidden="true"></div>
+            <div id="editorLineNumbers" class="editor-line-numbers" aria-hidden="true"></div>
+            <div id="editorHighlight" class="editor-highlight p-3"></div>
+            <textarea 
+              id="codeTextarea"
+              oninput="handleCodeInput()"
+              onscroll="syncEditorScroll()"
+              spellcheck="false"
+              autocorrect="off"
+              autocapitalize="off"
+              class="w-full h-full min-h-[200px] editor-textarea focus:outline-none font-mono text-xs leading-relaxed"
+              placeholder="// Type your Java code solution here..."
+            >class TextAnalyzer {
+    public void writeToFile(FileWriter writer, Scanner sc) throws IOException {
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.equals("END")) break;
+            writer.write(line + "\n");
+        }
+        writer.close();
+    }
+    public int countWords(BufferedReader reader) throws IOException {
+        int count = 0;
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] words = line.trim().split("\\s+");
+            if (words.length > 0 && !words[0].isEmpty()) {
+                count += words.length;
+            }
+        }
+        return count;
+    }
+}</textarea>
+          </div>
+
+          <!-- Collapsible Footer Snippet Accordion -->
+          <div id="footerSnippetSection" class="border-t border-slate-200">
+            <button onclick="toggleSnippet('footerSnippet')" class="w-full px-4 py-2 bg-slate-50 hover:bg-slate-100 flex justify-between items-center text-xs font-semibold text-slate-700 border-t border-slate-200">
+              <span>Footer Snippet</span>
+              <i class="fa-solid fa-chevron-up text-[10px] text-slate-400"></i>
+            </button>
+            <div id="footerSnippet" class="snippet-content footer-snippet bg-slate-50/50 p-3 font-mono text-xs space-y-1 max-h-40 overflow-y-auto" contenteditable="false" aria-readonly="true" spellcheck="false">
+              <div><span class="snippet-line-number">5</span><span class="java-keyword">class</span> Main {</div>
+              <div><span class="snippet-line-number">6</span><span class="pl-4"><span class="java-keyword">public</span> <span class="java-static">static</span> <span class="java-method">void main</span>(<span class="java-argument">String[] args</span>) <span class="java-keyword">throws</span> IOException {</span></div>
+              <div><span class="snippet-line-number">7</span><span class="pl-8">Scanner sc = <span class="java-keyword">new</span> Scanner(System.in);</span></div>
+              <div><span class="snippet-line-number">8</span><span class="pl-8">String filename = "textAnalyze.txt";</span></div>
+              <div><span class="snippet-line-number">9</span><span class="pl-8">FileWriter writer = <span class="java-keyword">new</span> FileWriter(filename);</span></div>
+              <div><span class="snippet-line-number">10</span><span class="pl-8">TextAnalyzer analyzer = <span class="java-keyword">new</span> TextAnalyzer();</span></div>
+              <div><span class="snippet-line-number">11</span><span class="pl-8">analyzer.writeToFile(writer, sc);</span></div>
+              <div><span class="snippet-line-number">12</span><span class="pl-8">BufferedReader reader = <span class="java-keyword">new</span> BufferedReader(<span class="java-keyword">new</span> FileReader(filename));</span></div>
+              <div><span class="snippet-line-number">13</span><span class="pl-8"><span class="java-keyword">int</span> totalWords = analyzer.countWords(reader);</span></div>
+              <div><span class="snippet-line-number">14</span><span class="pl-8">System.out.println("No of words: " + totalWords);</span></div>
+              <div><span class="snippet-line-number">15</span><span class="pl-4">}</span></div>
+              <div><span class="snippet-line-number">16</span>}</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Editor Tabs -->
+        <div class="bg-slate-100 border-t border-slate-200 px-4 py-1.5 flex space-x-4 text-[11px] font-semibold text-slate-600">
+          <button class="text-blue-600 border-b-2 border-blue-600 pb-0.5">Sample Tests</button>
+          <button class="hover:text-slate-900">Submissions</button>
+          <button class="hover:text-slate-900">Custom Inputs</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Coding Bottom Action Bar -->
+    <footer class="bg-white border-t border-slate-300 px-4 py-3 flex justify-between items-center">
+      <button class="text-xs font-bold text-slate-600 hover:text-slate-900 border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50">
+        Summary <span id="codingSummaryCount">0/2</span> &gt;
+      </button>
+
+      <div class="flex items-center space-x-3">
+        <button onclick="previousCodingQuestion()" class="text-xs font-bold text-slate-500 border border-slate-300 px-3 py-1.5 rounded-lg bg-slate-50">
+          &lt; Previous
+        </button>
+
+        <button id="codingBookmarkBtn" onclick="toggleCodingBookmark()" class="text-xs font-bold text-amber-600 border border-amber-400 hover:bg-amber-50 px-4 py-2 rounded-lg transition flex items-center space-x-1.5">
+          <i class="fa-regular fa-star"></i>
+          <span>Bookmark</span>
+        </button>
+
+        <button onclick="saveAndNextCoding()" class="text-xs font-bold text-white bg-teal-600 hover:bg-teal-500 px-5 py-2 rounded-lg shadow-sm transition">
+          Next &gt;
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: SECTION SUBMISSION VERIFICATION     -->
+  <!-- ========================================== -->
+  <div id="submitConfirmationModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center space-x-3 text-amber-600">
+        <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+        </div>
+        <h3 class="font-bold text-slate-900 text-base">Submit Section Confirmation</h3>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Are you sure you want to submit the <strong id="modalSectionName" class="text-slate-900">MCQ</strong> section? Once submitted, you cannot change your answers in this section.
+      </p>
+
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+        <label class="block text-[11px] font-bold text-slate-700">
+          Type <span class="font-mono text-blue-600">MCQ</span> below to confirm submission:
+        </label>
+        <input 
+          type="text" 
+          id="confirmTextInput"
+          oninput="validateSubmitInput()"
+          placeholder="Type MCQ here" 
+          class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+
+      <div class="flex justify-end space-x-3 pt-2 border-t border-slate-100">
+        <button onclick="closeSubmitModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+          Cancel
+        </button>
+        <button 
+          id="modalNextBtn"
+          disabled 
+          onclick="proceedToNextSection()"
+          class="px-5 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+        >
+          Next &gt;
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT APPLICATION CONTROLLER LOGIC    -->
+  <!-- ========================================== -->
+  <script>
+    // --- Application State ---
+    let currentUser = {
+      email: "arjunks.2501042@srec.ac.in",
+      name: "Adharsh Subramaniam",
+      roll: "71812511006"
+    };
+
+    let currentMcqIndex = 0;
+    let currentCodingIndex = 1;
+    const codingSubmitted = { 1: false, 2: false };
+    const codingVisited = { 1: false, 2: false };
+    let mcqTimerInterval = null;
+    const assessmentDurationSeconds = 2 * 60 * 60;
+    let mcqRemainingSeconds = assessmentDurationSeconds;
+    const authStorageKey = 'iamneo-authenticated-user';
+    let restoringHistory = false;
+    const persistedRoutes = new Set(['dashboard', 'labs', 'lab-detail', 'mcq', 'coding']);
+
+    function saveAuthenticatedUser() {
+      const serializedUser = JSON.stringify(currentUser);
+      window.name = `iamneo-auth:${serializedUser}`;
+      try {
+        localStorage.setItem(authStorageKey, serializedUser);
+      } catch (error) {
+        document.cookie = `${authStorageKey}=${encodeURIComponent(JSON.stringify(currentUser))};path=/;max-age=31536000;SameSite=Lax`;
+      }
+    }
+
+    function readAuthenticatedUser() {
+      try {
+        const savedUser = localStorage.getItem(authStorageKey);
+        if (savedUser) return savedUser;
+      } catch (error) {
+        // Fall back to the cookie for file:// contexts where localStorage can be unavailable.
+      }
+      const cookie = document.cookie
+        .split('; ')
+        .find(value => value.startsWith(`${authStorageKey}=`));
+      if (cookie) return decodeURIComponent(cookie.slice(authStorageKey.length + 1));
+      return window.name.startsWith('iamneo-auth:') ? window.name.slice('iamneo-auth:'.length) : null;
+    }
+
+    const contributionMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const contributionHeatmap = document.getElementById("contributionHeatmap");
+    if (contributionHeatmap) {
+      contributionMonths.forEach((month, monthIndex) => {
+        const monthColumn = document.createElement("div");
+        monthColumn.className = "text-center shrink-0";
+        const cells = document.createElement("div");
+        cells.className = "contribution-month";
+        for (let cellIndex = 0; cellIndex < 28; cellIndex += 1) {
+          const cell = document.createElement("i");
+          cell.className = "contribution-cell";
+          if ((cellIndex + monthIndex * 3) % 17 === 0) cell.classList.add("active-3");
+          else if ((cellIndex + monthIndex) % 11 === 0) cell.classList.add("active-2");
+          else if ((cellIndex + monthIndex) % 7 === 0) cell.classList.add("active-1");
+          cells.appendChild(cell);
+        }
+        const label = document.createElement("span");
+        label.className = "text-xs font-semibold text-slate-700";
+        label.textContent = month;
+        monthColumn.append(cells, label);
+        contributionHeatmap.appendChild(monthColumn);
+      });
+    }
+
+    // List of Java Keywords for Highlight Engine
+    const javaKeywordsList = [
+      "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", 
+      "const", "continue", "default", "do", "double", "else", "enum", "exports", "extends", 
+      "false", "final", "finally", "float", "for", "goto", "if", "implements", "import", 
+      "instanceof", "int", "interface", "long", "module", "native", "new", "null", "opens", 
+      "package", "private", "protected", "provides", "public", "record", "requires", "return", 
+      "sealed", "short", "static", "strictfp", "super", "switch", "synchronized", "this", 
+      "throw", "throws", "to", "transient", "true", "try", "uses", "var", "void", "volatile", 
+      "while", "with", "yield"
+    ];
+
+    // Build Regex Pattern for Java Keywords
+    const keywordRegex = new RegExp(`\\b(${javaKeywordsList.join('|')})\\b`, 'g');
+
+    // MCQ Questions Data + Track visited/skipped status
+    const mcqQuestions = [
+      { q: "What is the result if a method is synchronized and two threads try to execute it simultaneously?", options: ["Both threads will execute concurrently.", "One thread will wait until the other completes execution.", "Both threads will be blocked indefinitely.", "Both threads will be terminated."], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "Which data structure is primarily used to implement topological sorting in a Directed Acyclic Graph (DAG)?", options: ["Binary Search Tree", "Queue / Stack with In-Degree array", "Min Heap", "Disjoint Set Union"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "In Java, what happens when an overridden method in a subclass throws a broader checked exception than the superclass method?", options: ["Code executes normally at runtime", "Compilation error occurs", "ClassCastException is thrown", "Method execution is skipped"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "What is the worst-case time complexity of searching for an element in an AVL Tree with N nodes?", options: ["O(N)", "O(log N)", "O(N log N)", "O(1)"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "Which statement about Java Memory Management and Garbage Collection is correct?", options: ["Garbage collector guarantees immediate deletion.", "Objects in Young Gen move to Old Gen after surviving Minor GC cycles.", "System.gc() forces JVM to clear heap immediately.", "Local variables are stored in heap space."], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "In a Red-Black Tree, what is the maximum ratio of the longest path from the root to any leaf compared to the shortest path?", options: ["At most 1.5 times", "At most 2 times", "At most 3 times", "Equal length always"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "What design pattern does java.util.Observer interface and java.util.Observable class implement?", options: ["Factory Method Pattern", "Observer Pattern", "Singleton Pattern", "Adapter Pattern"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "In collision resolution using Quadratic Probing for Hash Tables, what is the sequence of probing locations for key k?", options: ["(hash(k) + i) % TableSize", "(hash(k) + c1*i + c2*i^2) % TableSize", "(hash1(k) + i * hash2(k)) % TableSize", "Randomized indices"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "What is the functionality of Java's CompletableFuture.supplyAsync() method?", options: ["Executes Runnable synchronously on main thread", "Asynchronously runs a task that returns a result supplier on ForkJoinPool", "Blocks thread until I/O operations finish", "Creates a new OS process"], correct: 1, userAnswer: null, visited: false, bookmarked: false },
+      { q: "What is the amortized time complexity per operation for a sequence of M operations on a Disjoint Set with Path Compression?", options: ["O(M log N)", "O(M α(N)) where α is Inverse Ackermann function", "O(M * N)", "O(M)"], correct: 1, userAnswer: null, visited: false, bookmarked: false }
+    ];
+
+    // 11 Weeks Data
+    const labWeeksData = [
+      { week: 1, title: "Week 1 - Array Implementation of List ADT" },
+      { week: 2, title: "Week 2 - Stack and Queue Implementation Using Arrays" },
+      { week: 3, title: "Week 3 - Singly Linked List ADT Operations" },
+      { week: 4, title: "Week 4 - Doubly Linked List & Circular Linked List" },
+      { week: 5, title: "Week 5 - Stack & Queue Applications (Infix to Postfix)" },
+      { week: 6, title: "Week 6 - Binary Tree Traversals & BST Operations" },
+      { week: 7, title: "Week 7 - AVL Trees & Self-Balancing Trees" },
+      { week: 8, title: "Week 8 - Priority Queue and Heap Sort Implementation" },
+      { week: 9, title: "Week 9 - Hashing Techniques & Collision Resolution" },
+      { week: 10, title: "Week 10 - Graph Algorithms (BFS, DFS & Topological Sort)" },
+      { week: 11, title: "Week 11 - Minimum Spanning Trees (Kruskal & Prim)" }
+    ];
+
+    // Render 11 Weeks in Lab Detail
+    function render11WeeksAccordion() {
+      const container = document.getElementById('weeksAccordionContainer');
+      container.innerHTML = '';
+
+      labWeeksData.forEach((w, idx) => {
+        const item = document.createElement('div');
+        item.className = "border border-slate-200 rounded-lg overflow-hidden";
+        item.innerHTML = `
+          <div onclick="selectWeekLabModule(${w.week})" class="bg-slate-50 hover:bg-blue-50/50 p-2.5 flex justify-between items-center text-xs font-bold text-slate-800 cursor-pointer transition">
+            <span>${w.title}</span>
+            <span class="w-5 h-5 bg-emerald-100 text-emerald-700 text-[10px] rounded-full flex items-center justify-center font-bold">100%</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectWeekLabModule(weekNum) {
+      const weekObj = labWeeksData.find(w => w.week === weekNum);
+      if(weekObj) {
+        document.getElementById('selectedLabTestTitle').innerText = weekObj.title;
+      }
+    }
+
+    function resizeTestUserName(input) {
+      if (!input) return;
+
+      const styles = getComputedStyle(input);
+      const canvas = resizeTestUserName.canvas || (resizeTestUserName.canvas = document.createElement('canvas'));
+      const context = canvas.getContext('2d');
+      if (!context) return;
+
+      context.font = `${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+      const textWidth = context.measureText(input.value || '').width;
+      const minWidth = parseFloat(styles.fontSize) * 1.5;
+      const maxWidth = Math.min(parseFloat(styles.maxWidth) || 224, window.innerWidth * 0.42);
+      input.style.width = `${Math.min(Math.max(textWidth + 2, minWidth), maxWidth)}px`;
+    }
+
+    function resizeTestUserNames() {
+      resizeTestUserName(document.getElementById('editableUserNameMCQ'));
+      resizeTestUserName(document.getElementById('editableUserNameCoding'));
+    }
+
+    // Dynamic Synchronization for Editable User Name
+    function syncUserNameChange(val) {
+      currentUser.name = val;
+      saveAuthenticatedUser();
+      document.getElementById('userNameHeader').innerText = val;
+      const dashboardName = document.getElementById('dashUserName');
+      if(document.activeElement !== dashboardName) dashboardName.innerText = val;
+      
+      const mcqInput = document.getElementById('editableUserNameMCQ');
+      const codingInput = document.getElementById('editableUserNameCoding');
+
+      if(mcqInput && mcqInput.value !== val) mcqInput.value = val;
+      if(codingInput && codingInput.value !== val) codingInput.value = val;
+      resizeTestUserNames();
+    }
+
+    function syncMcqTitle(val) {
+      const title = val.trim();
+      if(title) {
+        document.title = `${title} - iamNEO`;
+      }
+    }
+
+    function syncRollNumber(val) {
+      const roll = val.trim();
+      if(roll) {
+        currentUser.roll = roll;
+      }
+    }
+
+    function syncEmailChange(val) {
+      const email = val.trim();
+      if(!email) return;
+
+      currentUser.email = email;
+      saveAuthenticatedUser();
+      document.getElementById('dashUserEmail').innerText = email;
+      document.querySelectorAll('#mcqUserEmailDisplay, #codingUserEmailDisplay').forEach(element => {
+        if(element.textContent.trim() !== email) {
+          element.textContent = email;
+        }
+      });
+    }
+
+    function updateMcqTimerDisplay() {
+      const hours = Math.floor(mcqRemainingSeconds / 3600);
+      const minutes = Math.floor((mcqRemainingSeconds % 3600) / 60);
+      const seconds = mcqRemainingSeconds % 60;
+      const display = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      document.getElementById('mcqTimerDisplay').innerText = display;
+      document.getElementById('codingTimerDisplay').innerText = display;
+    }
+
+    function startMcqTimer() {
+      if(mcqTimerInterval) {
+        clearInterval(mcqTimerInterval);
+      }
+
+      mcqRemainingSeconds = assessmentDurationSeconds;
+      updateMcqTimerDisplay();
+      mcqTimerInterval = setInterval(() => {
+        if(mcqRemainingSeconds <= 0) {
+          clearInterval(mcqTimerInterval);
+          mcqTimerInterval = null;
+          mcqRemainingSeconds = 0;
+          updateMcqTimerDisplay();
+          return;
+        }
+
+        mcqRemainingSeconds -= 1;
+        updateMcqTimerDisplay();
+      }, 1000);
+    }
+
+    // --- Authentication Flow ---
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('loginPassword');
+      const checkbox = document.getElementById('showPassword');
+      passInput.type = checkbox.checked ? 'text' : 'password';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const emailVal = document.getElementById('loginEmail').value.trim();
+      if(emailVal) {
+        currentUser.email = emailVal;
+      }
+      saveAuthenticatedUser();
+
+      document.getElementById('dashUserEmail').innerText = currentUser.email;
+      document.getElementById('userNameHeader').innerText = currentUser.name;
+      document.getElementById('dashUserName').innerText = currentUser.name;
+      document.getElementById('mcqUserEmailDisplay').innerText = currentUser.email;
+      document.getElementById('codingUserEmailDisplay').innerText = currentUser.email;
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('portal-wrapper').classList.remove('hidden');
+
+      render11WeeksAccordion();
+      handleCodeInput(); // Initial highlight run
+      switchPortalTab('dashboard', { replaceHistory: true });
+    }
+
+    // --- Tab Switching in Portal ---
+    function switchPortalTab(tabName, options = {}) {
+      const dashContent = document.getElementById('tab-dashboard-content');
+      const labsContent = document.getElementById('tab-labs-content');
+      const labDetailContent = document.getElementById('tab-lab-detail-content');
+
+      dashContent.classList.add('hidden');
+      labsContent.classList.add('hidden');
+      labDetailContent.classList.add('hidden');
+
+      if(tabName === 'dashboard') {
+        dashContent.classList.remove('hidden');
+      } else if(tabName === 'labs') {
+        labsContent.classList.remove('hidden');
+      }
+
+      document.querySelectorAll('.portal-nav-item').forEach(item => {
+        item.classList.toggle('is-active', item.id === `nav-${tabName}`);
+      });
+
+      if (!restoringHistory && !options.fromHistory) {
+        const url = new URL(window.location.href);
+        url.hash = tabName;
+        if (options.replaceHistory) {
+          window.history.replaceState({ view: tabName }, '', url);
+        } else {
+          window.history.pushState({ view: tabName }, '', url);
+        }
+      }
+    }
+
+    function openLabDetail(title) {
+      document.getElementById('tab-dashboard-content').classList.add('hidden');
+      document.getElementById('tab-labs-content').classList.add('hidden');
+      
+      const detailView = document.getElementById('tab-lab-detail-content');
+      detailView.classList.remove('hidden');
+      document.getElementById('labDetailTitle').innerText = title;
+      render11WeeksAccordion();
+      if (!restoringHistory) {
+        window.history.pushState({ view: 'lab-detail', title }, '', '#lab-detail');
+      }
+    }
+
+    // --- NeoBrowser Splash Screen Loader ---
+    function launchNeoBrowserLoader() {
+      const loader = document.getElementById('view-neobrowser-loader');
+      const statusText = document.getElementById('loaderStatusText');
+      const progressBar = document.getElementById('loaderProgressBar');
+      
+      loader.classList.remove('hidden');
+      progressBar.style.width = '0%';
+
+      setTimeout(() => {
+        statusText.innerText = "Scanning for unauthorized external software...";
+        progressBar.style.width = '45%';
+      }, 800);
+
+      setTimeout(() => {
+        statusText.innerText = "Securing lock screen environment...";
+        progressBar.style.width = '85%';
+      }, 1600);
+
+      setTimeout(() => {
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          openCodingTestView();
+        }, 400);
+      }, 2200);
+    }
+
+    // --- Coding Test Controller ---
+    function openCodingTestView() {
+      document.getElementById('portal-wrapper').classList.add('hidden');
+      document.getElementById('view-mcq-test').classList.add('hidden');
+      document.getElementById('view-neobrowser-loader').classList.add('hidden');
+      document.getElementById('view-coding-test').classList.remove('hidden');
+      if (!restoringHistory) {
+        window.history.pushState({ view: 'coding' }, '', '#coding');
+      }
+      switchCodingQuestion(currentCodingIndex);
+      startMcqTimer();
+    }
+
+    function openMcqTestView() {
+      document.getElementById('portal-wrapper').classList.add('hidden');
+      document.getElementById('view-coding-test').classList.add('hidden');
+      document.getElementById('view-neobrowser-loader').classList.add('hidden');
+      document.getElementById('view-mcq-test').classList.remove('hidden');
+      if (!restoringHistory) {
+        window.history.pushState({ view: 'mcq' }, '', '#mcq');
+      }
+      renderMcqQuestionPills();
+      loadMcqQuestion(currentMcqIndex);
+      startMcqTimer();
+    }
+
+    function renderMcqQuestionPills() {
+      const container = document.getElementById('mcqQuestionPills');
+      container.innerHTML = '';
+
+      mcqQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `mcqPill-${idx}`;
+        btn.innerText = idx + 1;
+        btn.className = `w-6 h-6 rounded text-xs font-bold flex items-center justify-center transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100`;
+        btn.onclick = () => loadMcqQuestion(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function loadMcqQuestion(index) {
+      // Mark current active question as visited
+      mcqQuestions[currentMcqIndex].visited = true;
+
+      currentMcqIndex = index;
+      const qData = mcqQuestions[index];
+      qData.visited = true;
+
+      // Update Header Text
+      document.getElementById('mcqQuestionNumberLabel').innerText = `QUESTION ${index + 1}/10`;
+      document.getElementById('mcqQuestionText').innerText = qData.q;
+
+      // Update Question Pills Colors (Green for Answered, Red for Skipped)
+      mcqQuestions.forEach((q, i) => {
+        const pill = document.getElementById(`mcqPill-${i}`);
+        if(pill) {
+          if(i === index) {
+            // Currently selected
+            pill.className = "w-6 h-6 rounded text-xs font-bold flex items-center justify-center bg-blue-600 text-white shadow-sm ring-2 ring-blue-300";
+          } else if(q.userAnswer !== null) {
+            // Answered -> GREEN
+            pill.className = "w-6 h-6 rounded text-xs font-bold flex items-center justify-center bg-emerald-500 text-white";
+          } else if(q.visited && q.userAnswer === null) {
+            // Visited but not answered -> RED
+            pill.className = "w-6 h-6 rounded text-xs font-bold flex items-center justify-center bg-rose-500 text-white";
+          } else if(q.bookmarked) {
+            // Bookmarked -> AMBER
+            pill.className = "w-6 h-6 rounded text-xs font-bold flex items-center justify-center bg-amber-400 text-slate-900";
+          } else {
+            // Not Viewed -> GRAY
+            pill.className = "w-6 h-6 rounded text-xs font-bold flex items-center justify-center bg-white border border-slate-300 text-slate-700";
+          }
+        }
+      });
+
+      // Render Options
+      const optionsContainer = document.getElementById('mcqOptionsContainer');
+      optionsContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      qData.options.forEach((optText, optIdx) => {
+        const isSelected = qData.userAnswer === optIdx;
+        const optDiv = document.createElement('div');
+        optDiv.onclick = () => selectMcqOption(optIdx);
+        optDiv.className = `p-3.5 rounded-xl border flex items-center space-x-3 cursor-pointer transition ${
+          isSelected 
+            ? 'border-blue-600 bg-blue-50/70 text-blue-900 font-semibold shadow-sm' 
+            : 'border-slate-200 hover:border-slate-300 bg-slate-50/50 hover:bg-slate-50 text-slate-800'
+        }`;
+
+        optDiv.innerHTML = `
+          <div class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold ${
+            isSelected ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-300 bg-white text-slate-600'
+          }">${letters[optIdx]}</div>
+          <span class="text-xs flex-1 leading-snug">${optText}</span>
+        `;
+        optionsContainer.appendChild(optDiv);
+      });
+
+      // Update Bookmark btn style
+      const bmBtn = document.getElementById('mcqBookmarkBtn');
+      if(qData.bookmarked) {
+        bmBtn.className = "text-xs font-bold text-white bg-amber-500 border border-amber-500 px-4 py-2 rounded-lg transition flex items-center space-x-1.5";
+      } else {
+        bmBtn.className = "text-xs font-bold text-amber-600 border border-amber-400 hover:bg-amber-50 px-4 py-2 rounded-lg transition flex items-center space-x-1.5";
+      }
+
+      // Update summary counter
+      const answeredCount = mcqQuestions.filter(q => q.userAnswer !== null).length;
+      document.getElementById('mcqSummaryCount').innerText = `${answeredCount}/10`;
+    }
+
+    function selectMcqOption(optIdx) {
+      mcqQuestions[currentMcqIndex].userAnswer = optIdx;
+      loadMcqQuestion(currentMcqIndex);
+    }
+
+    function clearMcqSelection() {
+      mcqQuestions[currentMcqIndex].userAnswer = null;
+      loadMcqQuestion(currentMcqIndex);
+    }
+
+    function toggleMcqBookmark() {
+      mcqQuestions[currentMcqIndex].bookmarked = !mcqQuestions[currentMcqIndex].bookmarked;
+      loadMcqQuestion(currentMcqIndex);
+    }
+
+    function saveAndNextMcq() {
+      if(currentMcqIndex < mcqQuestions.length - 1) {
+        loadMcqQuestion(currentMcqIndex + 1);
+      } else {
+        openSubmitModal('MCQ');
+      }
+    }
+
+    // --- Modal Submission Handling ---
+    let targetSectionToSubmit = 'MCQ';
+
+    function openSubmitModal(sectionName) {
+      targetSectionToSubmit = sectionName;
+      document.getElementById('modalSectionName').innerText = sectionName;
+      document.getElementById('confirmTextInput').value = '';
+      document.getElementById('modalNextBtn').disabled = true;
+      document.getElementById('submitConfirmationModal').classList.remove('hidden');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submitConfirmationModal').classList.add('hidden');
+    }
+
+    function validateSubmitInput() {
+      const val = document.getElementById('confirmTextInput').value.trim();
+      const nextBtn = document.getElementById('modalNextBtn');
+      if(val.toUpperCase() === targetSectionToSubmit) {
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    function proceedToNextSection() {
+      closeSubmitModal();
+      if(targetSectionToSubmit === 'MCQ') {
+        document.getElementById('view-mcq-test').classList.add('hidden');
+        document.getElementById('view-coding-test').classList.remove('hidden');
+        if (!restoringHistory) {
+          window.history.pushState({ view: 'coding' }, '', '#coding');
+        }
+        if(!mcqTimerInterval) {
+          startMcqTimer();
+        }
+      }
+    }
+
+    // --- Coding Test & Code Syntax Highlighter Engine ---
+    const javaTypes = [
+      "ArrayList", "BufferedReader", "Connection", "DriverManager", "FileReader",
+      "FileWriter", "Integer", "IOException", "Main", "PreparedStatement",
+      "Scanner", "SQLException", "String", "StringBuilder"
+    ];
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function highlightJava(code) {
+      const protectedTokens = [];
+      const marker = value => {
+        const index = protectedTokens.push(value) - 1;
+        return `@@NEO_TOKEN_${index}@@`;
+      };
+
+      const source = code.replace(/(\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/g, match => {
+        const tokenClass = match.startsWith('//') || match.startsWith('/*')
+          ? 'java-comment'
+          : 'java-string';
+        return marker(`<span class="${tokenClass}">${escapeHtml(match)}</span>`);
+      });
+      let html = escapeHtml(source);
+
+      const replaceWithClass = (regex, className) => {
+        html = html.replace(regex, match => marker(`<span class="${className}">${match}</span>`));
+      };
+
+      replaceWithClass(/\b\d+(?:\.\d+)?\b/g, 'java-number');
+      replaceWithClass(keywordRegex, 'java-keyword');
+      replaceWithClass(new RegExp(`\\b(${javaTypes.join('|')})\\b`, 'g'), 'java-type');
+      replaceWithClass(/\b[A-Za-z_$][\w$]*(?=\s*\()/g, 'java-method');
+
+      return html.replace(/@@NEO_TOKEN_(\d+)@@/g, (_, index) => protectedTokens[Number(index)]);
+    }
+
+    function renderSnippet(containerId, code, startLine = 1) {
+      const container = document.getElementById(containerId);
+      const lines = code.split('\n');
+      container.innerHTML = lines.map((line, index) => {
+        const lineNumber = startLine + index;
+        const highlightedLine = highlightJava(line) || '&nbsp;';
+        return `<div class="flex"><span class="snippet-line-number">${lineNumber}</span><span>${highlightedLine}</span></div>`;
+      }).join('');
+    }
+
+    const codingSnippets = {
+      1: {
+        header: `import java.io.*;
+import java.util.Scanner;`,
+        footer: `class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String filename = "textAnalyze.txt";
+        FileWriter writer = new FileWriter(filename);
+        TextAnalyzer analyzer = new TextAnalyzer();
+        analyzer.writeToFile(writer, sc);
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        int totalWords = analyzer.countWords(reader);
+        System.out.println("No of words: " + totalWords);
+    }
+}`
+      },
+      2: {
+        header: `import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Main {`,
+        footer: `    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String usernameInput = scanner.nextLine();
+        String emailInput = scanner.nextLine();
+        insertUser(usernameInput, emailInput);
+        scanner.close();
+    }
+}
+`
+      }
+    };
+
+    function renderCodingSnippets(questionNumber) {
+      const snippets = codingSnippets[questionNumber];
+      renderSnippet('headerSnippet', snippets.header);
+      renderSnippet('footerSnippet', snippets.footer, snippets.header.split('\n').length + codingStarterCode[questionNumber].split('\n').length + 1);
+    }
+
+    function handleCodeInput() {
+      const textarea = document.getElementById('codeTextarea');
+      const highlightLayer = document.getElementById('editorHighlight');
+      const lineNumbers = document.getElementById('editorLineNumbers');
+      let code = textarea.value;
+
+      highlightLayer.innerHTML = `${highlightJava(code)}\n`;
+      const lineCount = Math.max(1, code.split('\n').length);
+      lineNumbers.innerHTML = Array.from(
+        { length: lineCount },
+        (_, index) => `<span>${index + 1}</span>`
+      ).join('');
+      lineNumbers.scrollTop = textarea.scrollTop;
+      updateActiveLine();
+    }
+
+    function syncEditorScroll() {
+      const textarea = document.getElementById('codeTextarea');
+      const highlightLayer = document.getElementById('editorHighlight');
+      const lineNumbers = document.getElementById('editorLineNumbers');
+      highlightLayer.scrollTop = textarea.scrollTop;
+      highlightLayer.scrollLeft = textarea.scrollLeft;
+      lineNumbers.scrollTop = textarea.scrollTop;
+      updateActiveLine();
+    }
+
+    function updateActiveLine() {
+      const textarea = document.getElementById('codeTextarea');
+      const activeLine = document.getElementById('editorActiveLine');
+      if (!textarea || !activeLine) return;
+
+      const styles = getComputedStyle(textarea);
+      const lineHeight = parseFloat(styles.lineHeight) || 20.8;
+      const paddingTop = parseFloat(styles.paddingTop) || 12;
+      const lineIndex = textarea.value.slice(0, textarea.selectionStart).split('\n').length - 1;
+
+      activeLine.style.top = `${paddingTop + lineIndex * lineHeight - textarea.scrollTop}px`;
+    }
+
+    function bindActiveLineEvents() {
+      const textarea = document.getElementById('codeTextarea');
+      if (!textarea || textarea.dataset.activeLineEventsBound === 'true') return;
+
+      ['click', 'focus', 'input', 'keyup', 'select'].forEach(eventName => {
+        textarea.addEventListener(eventName, updateActiveLine);
+      });
+      textarea.dataset.activeLineEventsBound = 'true';
+      updateActiveLine();
+    }
+
+    const codingStarterCode = {
+      1: `class TextAnalyzer {
+    public void writeToFile(FileWriter writer, Scanner sc) throws IOException {
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.equals("END")) break;
+            writer.write(line + "\\n");
+        }
+        writer.close();
+    }
+    public int countWords(BufferedReader reader) throws IOException {
+        int count = 0;
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] words = line.trim().split("\\\\s+");
+            if (words.length > 0 && !words[0].isEmpty()) {
+                count += words.length;
+            }
+        }
+        return count;
+    }
+}`,
+      2: `    public static void insertUser(String username, String email) {
+        String url = "jdbc:mysql://localhost/ri_db";
+        String dbUsername = "test";
+        String dbPassword = "test123";
+        String sql = "INSERT INTO users (username, email) VALUES (?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            statement.setString(2, email);
+            statement.executeUpdate();
+            System.out.println("Record inserted successfully for " + username + " with email " + email + ".");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+}`,
+    };
+
+    function switchCodingQuestion(qNum) {
+      currentCodingIndex = qNum;
+      codingVisited[qNum] = true;
+      [1, 2].forEach(questionNumber => {
+        const button = document.getElementById(`codeQBtn-${questionNumber}`);
+        const isCurrent = qNum === questionNumber;
+        const isSubmitted = codingSubmitted[questionNumber];
+        const isVisited = codingVisited[questionNumber];
+        button.className = isCurrent
+          ? 'w-6 h-6 rounded bg-blue-800 text-white font-bold text-xs flex items-center justify-center shadow-sm'
+          : isSubmitted
+            ? 'w-6 h-6 rounded bg-emerald-500 text-white font-bold text-xs flex items-center justify-center'
+            : isVisited
+              ? 'w-6 h-6 rounded bg-rose-500 text-white font-bold text-xs flex items-center justify-center'
+              : 'w-6 h-6 rounded bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-300';
+      });
+      
+      document.getElementById('codingQNumLabel').innerText = `QUESTION ${qNum}/2`;
+      document.getElementById('codeTextarea').value = codingStarterCode[qNum];
+      document.getElementById('codingLanguageSelect').value = 'Java (11)';
+      renderCodingSnippets(qNum);
+      handleCodeInput();
+
+      if(qNum === 2) {
+        document.getElementById('codingStatementContent').innerHTML = `
+          <h3 class="font-bold text-slate-900 text-sm mb-2">Problem Statement</h3>
+          <p id="codingProblemText" class="text-slate-700 leading-relaxed mb-2">John, a budding software developer, needs to create a Java program that inserts a new user record into a MySQL database using JDBC. He should capture the username and email from the user via the console and display a success message.</p>
+          <p class="text-slate-700">Help him by ensuring his program confirms the record insertion clearly.</p>
+          <p class="text-slate-700">The system should connect to a MYSQL database using the following default credentials:</p>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700">
+            <li>DB URL: <strong>jdbc:mysql://localhost/ri_db</strong></li>
+            <li>Username: <strong>test</strong></li>
+            <li>Password: <strong>test123</strong></li>
+          </ol>
+        `;
+        document.getElementById('codingInputFormat').innerHTML = "The first line of input consists of a String representing the username.<br><br>The second line of input consists of a String representing the email address.";
+        document.getElementById('codingOutputFormat').innerHTML = 'The output prints <strong>&quot;Record inserted successfully for {username} with email {email}.&quot;</strong>, representing the confirmation that the record was inserted successfully along with the entered username and email.<br><br>Refer to the sample output for formatting specifications.';
+        document.getElementById('codingConstraintOne').innerText = '1 ≤ length(username) ≤ 50';
+        document.getElementById('codingConstraintTwo').innerText = '5 ≤ length(email) ≤ 100; email must contain @ and .';
+        document.getElementById('codingConstraintThree').innerText = 'Only one record is inserted per execution';
+        document.getElementById('codingConstraintFour').innerText = 'Database ri_db and table users(username VARCHAR(50), email VARCHAR(100)) must exist';
+        document.getElementById('codingConstraintThree').classList.remove('hidden');
+        document.getElementById('codingConstraintFour').classList.remove('hidden');
+        document.getElementById('codingSampleInput').innerText = "john_doe\njohn@example.com";
+        document.getElementById('codingSampleOutput').innerText = "Record inserted successfully for john_doe with email john@example.com.";
+        document.getElementById('codingSampleInput2').innerText = "alice\nalice@example.com";
+        document.getElementById('codingSampleOutput2').innerText = "Record inserted successfully for alice with email alice@example.com.";
+      } else {
+        document.getElementById('codingStatementContent').innerHTML = `
+          <h3 class="font-bold text-slate-900 text-sm mb-2">Problem Statement</h3>
+          <p id="codingProblemText" class="text-slate-700 leading-relaxed mb-2">On his property, a farmer is sowing potato seeds. He thinks that everything about his plants' growth and good output comes from nature. If the weight of each potato is divisible by five, he can plant it in the ground for growth. Otherwise, change the seed to acquire a good harvest.</p>
+          <p class="text-slate-700">Write the array into a file named <strong>output.txt</strong> and create a method to monitor seed quality and assist the seed company in making more money.</p>
+        `;
+        document.getElementById('codingInputFormat').innerHTML = 'The first line of input consists of an integer <strong>N</strong>, representing the number of seeds.<br><br>The second line consists of <strong>N</strong> space-separated integers, representing the values of their grams.';
+        document.getElementById('codingOutputFormat').innerHTML = 'The output prints the type of seed that can be planted or changed for each of the <strong>N</strong> values in one of the following formats:<br><br>1. If the seed is changed, print "Change X gram seed" where X is the value of the grams.<br>2. If the seed is planted, print "Plant X gram seed" where X is the value of the grams.<br><br>Refer to the sample output for the formatting specifications.';
+        document.getElementById('codingConstraintOne').innerText = '1 ≤ N ≤ 50';
+        document.getElementById('codingConstraintTwo').innerText = '1 ≤ Each value of grams ≤ 100';
+        document.getElementById('codingConstraintThree').classList.add('hidden');
+        document.getElementById('codingConstraintFour').classList.add('hidden');
+        document.getElementById('codingSampleInput').innerText = "5\n23 12 7 2 5";
+        document.getElementById('codingSampleOutput').innerText = "Change 23 gram seed\nChange 12 gram seed\nChange 7 gram seed\nChange 2 gram seed\nPlant 5 gram seed";
+        document.getElementById('codingSampleInput2').innerText = "10\n68 21 65 23 98 57 25 49 96 94";
+        document.getElementById('codingSampleOutput2').innerText = "Change 68 gram seed\nChange 21 gram seed\nPlant 65 gram seed\nChange 23 gram seed\nChange 98 gram seed\nChange 57 gram seed\nPlant 25 gram seed\nChange 49 gram seed\nChange 96 gram seed\nChange 94 gram seed";
+      }
+    }
+
+    function toggleSnippet(snippetId) {
+      const elem = document.getElementById(snippetId);
+      elem.classList.toggle('hidden');
+    }
+
+    function clearCodeEditor() {
+      document.getElementById('codeTextarea').value = '';
+      handleCodeInput();
+    }
+
+    function runSampleTests() {
+      alert("Sample test cases executed successfully! All test cases passed (1/1).");
+    }
+
+    function toggleCodingBookmark() {
+      const btn = document.getElementById('codingBookmarkBtn');
+      btn.classList.toggle('bg-amber-500');
+      btn.classList.toggle('text-white');
+    }
+
+    function scrollCodingQuestion(direction) {
+      const pane = document.querySelector('.coding-question-pane');
+      if (pane) {
+        pane.scrollBy({ top: direction * 220, behavior: 'smooth' });
+      }
+    }
+
+    function previousCodingQuestion() {
+      if (currentCodingIndex > 1) {
+        switchCodingQuestion(currentCodingIndex - 1);
+      }
+    }
+
+    function saveAndNextCoding() {
+      codingSubmitted[currentCodingIndex] = true;
+      switchCodingQuestion(currentCodingIndex);
+      if(currentCodingIndex === 1) {
+        switchCodingQuestion(2);
+      } else {
+        finishCompleteTest();
+      }
+    }
+
+    function finishCompleteTest() {
+      alert("Assessment Completed & Submitted Successfully!");
+      document.getElementById('view-coding-test').classList.add('hidden');
+      document.getElementById('view-mcq-test').classList.add('hidden');
+      document.getElementById('view-neobrowser-loader').classList.add('hidden');
+      document.getElementById('portal-wrapper').classList.remove('hidden');
+      switchPortalTab('dashboard');
+    }
+
+    function restoreViewFromLocation() {
+      const route = window.location.hash.slice(1);
+      const savedUser = readAuthenticatedUser();
+      if (!savedUser && !persistedRoutes.has(route)) return;
+
+      if (savedUser) {
+        try {
+          const parsedUser = JSON.parse(savedUser);
+          if (parsedUser && parsedUser.email) {
+            currentUser = { ...currentUser, ...parsedUser };
+          }
+        } catch (error) {
+          saveAuthenticatedUser();
+        }
+      }
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('portal-wrapper').classList.remove('hidden');
+      document.getElementById('dashUserEmail').innerText = currentUser.email;
+      document.getElementById('userNameHeader').innerText = currentUser.name;
+      document.getElementById('dashUserName').innerText = currentUser.name;
+      document.getElementById('mcqUserEmailDisplay').innerText = currentUser.email;
+      document.getElementById('codingUserEmailDisplay').innerText = currentUser.email;
+      render11WeeksAccordion();
+      handleCodeInput();
+
+      const activeRoute = route || 'dashboard';
+      restoringHistory = true;
+      if (activeRoute === 'labs') {
+        switchPortalTab('labs', { fromHistory: true });
+      } else if (activeRoute === 'lab-detail') {
+        openLabDetail('2025_29_III_DATA STRUCTURES LAB_IT A');
+      } else if (activeRoute === 'mcq') {
+        openMcqTestView();
+      } else if (activeRoute === 'coding') {
+        document.getElementById('portal-wrapper').classList.add('hidden');
+        document.getElementById('view-coding-test').classList.remove('hidden');
+        switchCodingQuestion(currentCodingIndex);
+        startMcqTimer();
+      } else {
+        switchPortalTab('dashboard', { fromHistory: true });
+      }
+      restoringHistory = false;
+      window.history.replaceState({ view: activeRoute }, '', `#${activeRoute}`);
+    }
+
+    window.addEventListener('popstate', () => {
+      restoringHistory = true;
+      const route = window.location.hash.slice(1) || 'dashboard';
+      if (route === 'dashboard' || route === 'labs') {
+        document.getElementById('view-mcq-test').classList.add('hidden');
+        document.getElementById('view-coding-test').classList.add('hidden');
+        document.getElementById('view-neobrowser-loader').classList.add('hidden');
+        document.getElementById('portal-wrapper').classList.remove('hidden');
+        switchPortalTab(route, { fromHistory: true });
+      } else if (route === 'mcq') {
+        document.getElementById('portal-wrapper').classList.add('hidden');
+        document.getElementById('view-coding-test').classList.add('hidden');
+        document.getElementById('view-neobrowser-loader').classList.add('hidden');
+        document.getElementById('view-mcq-test').classList.remove('hidden');
+        renderMcqQuestionPills();
+        loadMcqQuestion(currentMcqIndex);
+      } else if (route === 'coding') {
+        document.getElementById('portal-wrapper').classList.add('hidden');
+        document.getElementById('view-mcq-test').classList.add('hidden');
+        document.getElementById('view-coding-test').classList.remove('hidden');
+        switchCodingQuestion(currentCodingIndex);
+      } else if (route === 'lab-detail') {
+        document.getElementById('portal-wrapper').classList.remove('hidden');
+        openLabDetail('2025_29_III_DATA STRUCTURES LAB_IT A');
+      }
+      restoringHistory = false;
+    });
+
+    bindActiveLineEvents();
+    resizeTestUserNames();
+    window.addEventListener('resize', resizeTestUserNames);
+    restoreViewFromLocation();
+  </script>
+</body>
+</html>
